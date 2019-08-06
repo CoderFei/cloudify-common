@@ -555,7 +555,8 @@ node_templates:
         except KeyError as e:
             self.assertIn(
                 "Node template property 'vm.properties.a.notfound' "
-                "referenced from 'vm.properties.a.a0' doesn't exist.", str(e))
+                "referenced from 'nodes.vm.properties.a.a0' doesn't exist.",
+                str(e))
 
     def test_invalid_nested_property2(self):
         yaml = """
@@ -879,7 +880,7 @@ node_templates:
                 self.fail()
             except ValueError as e:
                 self.assertIn('{0} cannot be used with get_attribute function '
-                              'in vm.operations.test.op.inputs.a'
+                              'in nodes.vm.operations.test.op.inputs.a'
                               .format(ref), str(e))
 
         assert_with('SOURCE')
@@ -918,7 +919,7 @@ node_templates:
                 self.fail()
             except ValueError as e:
                 self.assertIn('{0} cannot be used with get_attribute function '
-                              'in vm.relationship.test.op.inputs.a'
+                              'in nodes.vm.relationship.test.op.inputs.a'
                               .format(ref), str(e))
 
         assert_with('SELF')
