@@ -18,7 +18,6 @@ import pkg_resources
 
 from functools import wraps
 
-from cloudify.utils import string_types
 from dsl_parser import exceptions, scan
 from dsl_parser.constants import (OUTPUTS,
                                   CAPABILITIES,
@@ -150,7 +149,7 @@ _register_entry_point_functions()
 
 
 def _contains_legal_nested_attribute_path_items(l):
-    return all(is_function(x) or isinstance(x, string_types + (int,))
+    return all(is_function(x) or isinstance(x, (basestring, int))
                for x in l)
 
 
@@ -214,7 +213,7 @@ class GetInput(Function):
                 and len(l) >= 1 \
                 and _contains_legal_nested_attribute_path_items(l)
 
-        if not isinstance(args, string_types) \
+        if not isinstance(args, basestring) \
                 and not is_function(args) \
                 and not _is_valid_args_list(args):
             raise ValueError(
@@ -597,7 +596,7 @@ class GetSecret(Function):
         super(GetSecret, self).__init__(args, **kwargs)
 
     def parse_args(self, args):
-        if not isinstance(args, string_types) and not is_function(args):
+        if not isinstance(args, basestring) and not is_function(args):
             raise ValueError(
                 "`get_secret` function argument should be a string\\dict "
                 "(a function). Instead it is a {0} with the "
@@ -696,7 +695,7 @@ class GetCapability(InterDeploymentDependencyCreatingFunction):
                 "{0}".format("[" + ','.join([str(a) for a in args]) + "]")
             )
         for arg_index in range(len(args)):
-            if not isinstance(args[arg_index], string_types + (int,)) \
+            if not isinstance(args[arg_index], (basestring, int)) \
                     and not is_function(args[arg_index]):
                 raise ValueError(
                     "`get_capability` function arguments can't be complex "
